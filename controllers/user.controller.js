@@ -48,7 +48,22 @@ const Login = asyncHandler(async (req, res) => {
   }
 });
 
+// Get all users
+const getAllUsers = asyncHandler(async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json({
+      success: true,
+      message: "Users retrieved successfully.",
+      data: users,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 module.exports = {
   Register,
   Login,
+  getAllUsers,
 };
