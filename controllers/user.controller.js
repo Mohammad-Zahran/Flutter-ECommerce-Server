@@ -62,8 +62,41 @@ const getAllUsers = asyncHandler(async (req, res) => {
   }
 });
 
+const UpdateUser = asyncHandler(async (req, res) => {
+  try {
+    const userID = req.params.id;
+    const { name, password } = req.body;
+    if (!name || !password) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Name,  and password are required." });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userID,
+      { name, password },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found." });
+    }
+
+    res.json({
+      success: true,
+      message: "User updated successfully.",
+      data: updatedUser,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 module.exports = {
   Register,
   Login,
   getAllUsers,
+  UpdateUser,
 };
