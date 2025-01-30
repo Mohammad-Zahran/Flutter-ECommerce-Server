@@ -94,9 +94,25 @@ const UpdateUser = asyncHandler(async (req, res) => {
   }
 });
 
+const DeleteUser = asyncHandler(async (req, res) => {
+  try {
+    const userID = req.params.id;
+    const deletedUser = await User.findByIdAndDelete(userID);
+    if (!deletedUser) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found." });
+    }
+    res.json({ success: true, message: "User deleted successfully." });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 module.exports = {
   Register,
   Login,
   getAllUsers,
   UpdateUser,
+  DeleteUser,
 };
