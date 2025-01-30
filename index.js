@@ -16,6 +16,8 @@ const db = mongoose.connection;
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to Database"));
 
+app.use('/users', require('./routes/user.routes.js'))
+
 // Example route using asyncHandler directly in app.js
 app.get(
   "/",
