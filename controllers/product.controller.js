@@ -94,6 +94,26 @@ const CreateProduct = asyncHandler(async (req, res) => {
   }
 });
 
+// Gett All Products
+const getAllProducts = asyncHandler(async (req, res) => {
+  try {
+    const products = await Product.find()
+      .populate("proCategoryId", "id name")
+      .populate("proSubCategoryId", "id name")
+      .populate("proBrandId", "id name")
+      .populate("proVariantTypeId", "id type")
+      .populate("proVariantId", "id name");
+    res.json({
+      success: true,
+      message: "Products retrieved successfully.",
+      data: products,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 module.exports = {
   CreateProduct,
+  getAllProducts,
 };
