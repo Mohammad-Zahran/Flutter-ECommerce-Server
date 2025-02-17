@@ -113,7 +113,34 @@ const getAllProducts = asyncHandler(async (req, res) => {
   }
 });
 
+// Get a product by ID
+const getProductByID = asyncHandler(async (req, res) => {
+  try {
+    const productID = req.params.id;
+    const product = await Product.findById(productID)
+      .populate("proCategoryId", "id name")
+      .populate("proSubCategoryId", "id name")
+      .populate("proBrandId", "id name")
+      .populate("proVariantTypeId", "id name")
+      .populate("proVariantId", "id name");
+
+    if (!product) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found." });
+    }
+    res.json({
+      success: true,
+      message: "Product retrieved successfully.",
+      data: product,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 module.exports = {
   CreateProduct,
   getAllProducts,
+  getProductByID,
 };
