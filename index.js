@@ -7,8 +7,11 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const app = express();
+//?Middle wair
 app.use(cors({ origin: "*" }));
 app.use(bodyParser.json());
+//? setting static folder path
+app.use("/image/products", express.static("public/products"));
 
 const URL = process.env.MONGO_URL;
 mongoose.connect(URL);
@@ -16,7 +19,9 @@ const db = mongoose.connection;
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to Database"));
 
-app.use('/users', require('./routes/user.routes.js'))
+// Routes
+app.use("/users", require("./routes/user.routes.js"));
+app.use("/products", require("./routes/product.routes.js"));
 
 // Example route using asyncHandler directly in app.js
 app.get(
