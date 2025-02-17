@@ -62,6 +62,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
   }
 });
 
+// Update User
 const UpdateUser = asyncHandler(async (req, res) => {
   try {
     const userID = req.params.id;
@@ -94,6 +95,7 @@ const UpdateUser = asyncHandler(async (req, res) => {
   }
 });
 
+// Delete a User
 const DeleteUser = asyncHandler(async (req, res) => {
   try {
     const userID = req.params.id;
